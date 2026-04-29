@@ -1,3 +1,7 @@
+// ** 2026-1**
+// **Integrantes proyecto 2**
+// [Santiago Lafont Díaz]
+
 CHIP CPU {
 
     IN  
@@ -13,10 +17,10 @@ CHIP CPU {
 
     PARTS:
 
-    // ===== TIPO DE INSTRUCCIÓN =====
+    // TIPO DE INSTRUCCIÓN
     Not(in=instruction[15], out=isA);
 
-    // ===== REGISTRO A =====
+    // REGISTRO A
     Mux16(a=instruction, b=aluOut, sel=instruction[15], out=aInput);
     Or(a=isA, b=instruction[5], out=loadA);
 
@@ -27,14 +31,14 @@ CHIP CPU {
         out[0..14]=addressM   
     );
 
-    // ===== REGISTRO D =====
+    // REGISTRO D
     And(a=instruction[15], b=instruction[4], out=loadD);
     DRegister(in=aluOut, load=loadD, out=dOut);
 
-    // ===== ENTRADA Y ALU =====
+    // ENTRADA Y ALU
     Mux16(a=aOut, b=inM, sel=instruction[12], out=yInput);
 
-    // ===== ALU =====
+    // ALU
     ALU(
         x=dOut,
         y=yInput,
@@ -49,10 +53,10 @@ CHIP CPU {
         ng=ng
     );
 
-    // ===== SALIDA MEMORIA =====
+    // SALIDA MEMORIA
     And(a=instruction[15], b=instruction[3], out=writeM);
 
-    // ===== SALTOS =====
+    // SALTOS
     Not(in=zr, out=notZr);
     Not(in=ng, out=notNg);
 
@@ -65,7 +69,7 @@ CHIP CPU {
 
     And(a=instruction[15], b=jump, out=pcLoad);
 
-    // ===== PC =====
+    // PC
     PC(
         in=aOut,
         load=pcLoad,
@@ -74,6 +78,6 @@ CHIP CPU {
         out[0..14]=pc 
     );
 
-    // ===== SALIDA FINAL =====
+    // SALIDA
     Mux16(a=aluOut, b=aluOut, sel=false, out=outM);
 }
