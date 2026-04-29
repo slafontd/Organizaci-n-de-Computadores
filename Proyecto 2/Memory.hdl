@@ -1,0 +1,50 @@
+// ** 2026-1**
+// **Integrantes proyecto 2**
+// [Santiago Lafont Díaz]
+
+CHIP Memory {
+    IN in[16], load, address[15];
+    OUT out[16];
+
+    PARTS:
+
+    // SELECCION
+    // RAM: address[14] = 0
+    Not(in=address[14], out=notA14);
+
+    // Screen: address[14] = 1 AND address[13] = 0
+    Not(in=address[13], out=notA13);
+    And(a=address[14], b=notA13, out=selScreen);
+
+    // Keyboard: address[14] = 1 AND address[13] = 1
+    And(a=address[14], b=address[13], out=selKeyboard);
+
+    // LOAD
+    And(a=load, b=notA14, out=loadRAM);
+    And(a=load, b=selScreen, out=loadScreen);
+
+    // CHIPS
+    RAM16K(
+        in=in,
+        load=loadRAM,
+        address=address[0..13],
+        out=outRAM
+    );
+
+    Screen(
+        in=in,
+        load=loadScreen,
+        address=address[0..12],
+        out=outScreen
+    );
+
+    Keyboard(
+        out=outKeyboard
+    );
+
+    // SALIDA
+   
+    Mux16(a=outRAM, b=outScreen, sel=address[14], out=ramOrScreen);
+
+    Mux16(a=ramOrScreen, b=outKeyboard, sel=address[13], out=out);
+}

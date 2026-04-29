@@ -1,0 +1,67 @@
+// ** 2026-1**
+// **Integrantes proyecto 2**
+// [Santiago Lafont Díaz]
+
+CHIP Shifter {
+    IN in[16], direction;
+    OUT out[16], result;
+
+    PARTS:
+
+    // SHIFT IZQUIERDA
+    And(a=false, b=false, out=l0);
+    And(a=in[0], b=true, out=l1);
+    And(a=in[1], b=true, out=l2);
+    And(a=in[2], b=true, out=l3);
+    And(a=in[3], b=true, out=l4);
+    And(a=in[4], b=true, out=l5);
+    And(a=in[5], b=true, out=l6);
+    And(a=in[6], b=true, out=l7);
+    And(a=in[7], b=true, out=l8);
+    And(a=in[8], b=true, out=l9);
+    And(a=in[9], b=true, out=l10);
+    And(a=in[10], b=true, out=l11);
+    And(a=in[11], b=true, out=l12);
+    And(a=in[12], b=true, out=l13);
+    And(a=in[13], b=true, out=l14);
+    And(a=in[14], b=true, out=l15);
+
+    // SHIFT DERECHA
+    And(a=in[1], b=true, out=r0);
+    And(a=in[2], b=true, out=r1);
+    And(a=in[3], b=true, out=r2);
+    And(a=in[4], b=true, out=r3);
+    And(a=in[5], b=true, out=r4);
+    And(a=in[6], b=true, out=r5);
+    And(a=in[7], b=true, out=r6);
+    And(a=in[8], b=true, out=r7);
+    And(a=in[9], b=true, out=r8);
+    And(a=in[10], b=true, out=r9);
+    And(a=in[11], b=true, out=r10);
+    And(a=in[12], b=true, out=r11);
+    And(a=in[13], b=true, out=r12);
+    And(a=in[14], b=true, out=r13);
+    And(a=in[15], b=true, out=r14);
+    And(a=false, b=false, out=r15);
+
+    // SELECCIÓN FINAL
+    Mux(a=l0, b=r0, sel=direction, out=out[0]);
+    Mux(a=l1, b=r1, sel=direction, out=out[1]);
+    Mux(a=l2, b=r2, sel=direction, out=out[2]);
+    Mux(a=l3, b=r3, sel=direction, out=out[3]);
+    Mux(a=l4, b=r4, sel=direction, out=out[4]);
+    Mux(a=l5, b=r5, sel=direction, out=out[5]);
+    Mux(a=l6, b=r6, sel=direction, out=out[6]);
+    Mux(a=l7, b=r7, sel=direction, out=out[7]);
+    Mux(a=l8, b=r8, sel=direction, out=out[8]);
+    Mux(a=l9, b=r9, sel=direction, out=out[9]);
+    Mux(a=l10, b=r10, sel=direction, out=out[10]);
+    Mux(a=l11, b=r11, sel=direction, out=out[11]);
+    Mux(a=l12, b=r12, sel=direction, out=out[12]);
+    Mux(a=l13, b=r13, sel=direction, out=out[13]);
+    Mux(a=l14, b=r14, sel=direction, out=out[14]);
+    Mux(a=l15, b=r15, sel=direction, out=out[15]);
+
+    // RESULT
+    Mux(a=in[15], b=in[0], sel=direction, out=result);
+}

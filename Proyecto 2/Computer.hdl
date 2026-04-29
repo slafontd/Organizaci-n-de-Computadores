@@ -1,0 +1,35 @@
+// ** 2026-1**
+// **Integrantes proyecto 2**
+// [Santiago Lafont Díaz]
+
+CHIP Computer {
+
+    IN reset;
+
+    PARTS:
+
+    // ROM32K
+    ROM32K(
+        address=pc,
+        out=instruction
+    );
+
+    // CPU
+    CPU(
+        inM=inM,
+        instruction=instruction,
+        reset=reset,
+        outM=outM,
+        writeM=writeM,
+        addressM=addressM,
+        pc=pc
+    );
+
+    // MEMORY
+    Memory(
+        in=outM,
+        load=writeM,
+        address=addressM,
+        out=inM
+    );
+}

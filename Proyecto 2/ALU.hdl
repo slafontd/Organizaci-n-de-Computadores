@@ -1,0 +1,55 @@
+// ** 2026-1**
+// **Integrantes proyecto 2**
+// [Santiago Lafont Díaz]
+
+CHIP ALU {
+    IN  
+        x[16], y[16],
+        zx, nx, zy, ny, f, no;
+    OUT 
+        out[16], zr, ng, result;
+
+    PARTS:
+
+    Mux16(a=x, b=false, sel=zx, out=x1);
+    Not16(in=x1, out=nx1);
+    Mux16(a=x1, b=nx1, sel=nx, out=x2);
+
+    Mux16(a=y, b=false, sel=zy, out=y1);
+    Not16(in=y1, out=ny1);
+    Mux16(a=y1, b=ny1, sel=ny, out=y2);
+
+    And16(a=x2, b=y2, out=andOut);
+    Add16(a=x2, b=y2, out=addOut);
+    Mux16(a=andOut, b=addOut, sel=f, out=fOut);
+
+    Not16(in=fOut, out=nfOut);
+    Mux16(a=fOut, b=nfOut, sel=no, out=normalOut);
+
+    // SHIFTER 
+    Shifter(in=x, direction=f, out=shiftOut, result=shiftResult);
+
+    // DETECTAR SHIFT 
+    Not(in=zx, out=nzx);
+    Not(in=nx, out=nnx);
+    Not(in=zy, out=nzy);
+    Not(in=ny, out=nny);
+
+    And(a=nzx, b=nnx, out=c1);
+    And(a=nzy, b=nny, out=c2);
+    And(a=c1, b=c2, out=c3);
+    And(a=c3, b=no, out=isShift);
+
+    // SALIDA INTERNA 
+    Mux16(a=normalOut, b=shiftOut, sel=isShift, out=outInt);
+
+    // RESULtADO
+    Mux(a=false, b=shiftResult, sel=isShift, out=result);
+
+    // FLAGS
+    Mux(a=false, b=false, sel=false, out=zr);
+    Mux(a=false, b=false, sel=false, out=ng);
+
+    // Salida
+    Mux16(a=outInt, b=outInt, sel=false, out=out);
+}

@@ -1,0 +1,45 @@
+// ** 2026-1**
+// **Integrantes proyecto 2**
+// [Santiago Lafont Díaz]
+
+Punto 4 – Arquitectura de la instrucción (Shift)
+
+Para extender la ALU con operaciones de desplazamiento (shift left y shift right),
+se propone reutilizar el formato de instrucción tipo C:
+
+111 a ccccccc ddd jjj
+
+Donde los bits "ccccccc" controlan la operación de la ALU.
+
+DISEÑO PROPUESTO
+
+Se reservan combinaciones específicas del campo "c" para indicar operaciones shift:
+
+SHIFT LEFT (<< 1):
+Se define una combinación única de bits en el campo c para activar el shifter.
+Ejemplo:
+c = 0100000 → operación: x << 1
+
+SHIFT RIGHT (>> 1):
+Otra combinación distinta:
+c = 0100001 → operación: x >> 1
+
+Estas combinaciones no interfieren con las operaciones originales de la ALU.
+
+FUNCIONAMIENTO
+La CPU detecta estas combinaciones en el campo "c".
+En lugar de usar la salida de la ALU tradicional:
+(Add, And, etc.)
+se activa el módulo Shifter implementado en el punto anterior.
+El resultado del Shifter se enruta como salida final.
+SINTAXIS EN ASSEMBLER
+
+Shift Left:
+dest = reg << 1
+Ejemplo:
+D = M << 1
+
+Shift Right:
+dest = reg >> 1
+Ejemplo:
+A = D >> 1
